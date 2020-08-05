@@ -1,9 +1,6 @@
 name: deploy to github pages
 
-on:
-  push:
-    branches:
-      - master
+on: [pull_request]
 
 jobs:
   deploy:
@@ -18,7 +15,9 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build
-        run: yarn run build
+        env: 
+          SKYWAY_API_KEY: ${{secrets.SKYWAY_API_KEY}}
+        run: SKYWAY_API_KEY=${{secrets.SKYWAY_API_KEY}} yarn run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
